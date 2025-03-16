@@ -7,26 +7,35 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 
 @ResponseStatus(HttpStatus.BAD_REQUEST)
 public class DEIException extends RuntimeException {
-	private final ErrorMessage errorMessage;
-	private static final Logger logger = LoggerFactory.getLogger(DEIException.class);
+    private final ErrorMessage errorMessage;
+    private final String debugMessage;
+    private static final Logger logger = LoggerFactory.getLogger(DEIException.class);
 
-	public DEIException(ErrorMessage errorMessage) {
-		super(errorMessage.getLabel());
-		logger.error(errorMessage.getLabel());
-		this.errorMessage = errorMessage;
-	}
+    // Constructor without extra debug info
+    public DEIException(ErrorMessage errorMessage) {
+        super(errorMessage.getLabel());
+        this.errorMessage = errorMessage;
+        this.debugMessage = errorMessage.getLabel();
+        logger.error(this.debugMessage);
+    }
 
-	public DEIException(ErrorMessage errorMessage, String value) {
-		super(String.format(errorMessage.getLabel(), value));
-		logger.error(errorMessage.getLabel(), value);
-		this.errorMessage = errorMessage;
-	}
+    // Constructor with additional debug info
+    public DEIException(ErrorMessage errorMessage, String value) {
+        super(String.format(errorMessage.getLabel(), value));
+        this.errorMessage = errorMessage;
+        this.debugMessage = String.format(errorMessage.getLabel(), value);
+        logger.error(this.debugMessage);
+    }
 
-	public ErrorMessage getErrorMessage() {
-		return this.errorMessage;
-	}
+    public ErrorMessage getErrorMessage() {
+        return this.errorMessage;
+    }
 
-	public int getCode() {
-		return this.errorMessage.getCode();
-	}
+    public int getCode() {
+        return this.errorMessage.getCode();
+    }
+
+    public String getDebugMessage() {
+        return this.debugMessage;
+    }
 }

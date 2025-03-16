@@ -2,7 +2,7 @@
   <v-layout id="app">
     <TopBar />
     <v-main
-      style="margin-top: 96px"
+      style="margin-top: 20px"
       class="pa-10 d-flex flex-column flex-grow-1 flex-shrink-1 text-center"
     >
       <v-card class="elevation-4 pa-8" width="100%">
